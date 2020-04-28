@@ -1,0 +1,45 @@
+@primary: #409eff;
+
+.container {
+    position: relative;
+    border: 1px dashed hsla(0,0%,66.7%,.5);
+    background-color: rgba(236,245,255,.3);
+    // margin: 2px;
+    // overflow: hidden;
+    // height: 100px;
+    // width: 300px;
+    width: 100%;
+    height: 100%;
+    .actionTabs {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        height: 28px;
+        line-height: 28px;
+        background: @primary;
+        z-index: 9;
+        span {
+            font-size: 14px;
+            color: #fff;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+    }
+    .actionRight {
+        position: absolute;
+        top: 0;
+        right: -20px;
+        width: 20px;
+        height: 100%;
+        background: @primary;
+        z-index: 999;
+    }
+    .actionBottom {
+        position: absolute;
+        bottom: -20px;
+        // right: -50px;
+        width: 100%;
+        height: 20px;
+        background: @primary; 
+    }
+}
