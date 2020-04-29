@@ -156,6 +156,8 @@ export const itemUpdateInfo = (newIndex, data, dragItem) => {
     parent = parent[first];
     newindexarr.forEach((item, index) => {
       if(index === newindexarr.length -1 ) {
+        let current = parent.children[item];
+        dragItem = Object.assign({},current, dragItem);
         parent.children.splice(item, 1, dragItem);
       } else {
         parent = parent.children[item];

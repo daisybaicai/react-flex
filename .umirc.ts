@@ -5,5 +5,7 @@ export default defineConfig({
   publicPath: './',
   routes: [
     { path: '/', component: '@/pages/index' },
+    { path: '/index2', component: '@/pages/index2' },
+    { path: '/index3', component: '@/pages/EditableTree' },
   ],
 });
