@@ -11,8 +11,8 @@ const codeView = props => {
   return (
     <div>
       <MonacoEditor
-        width="6ß00"
-        height="667"
+        width="600"
+        height="400"
         language="javascript"
         theme="vs-light"
         value={code}

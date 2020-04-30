@@ -5,19 +5,6 @@ import _ from 'loadsh';
  */
 export const indexToArray = pathStr => `${pathStr}`.split('-').map(n => +n);
 
-/**
- * @description 是路径还是组件
- */
-export const isPathorCom = pathIndex => {
-  let result = true
-  indexToArray(pathIndex).forEach(item => {
-      if (isNaN(item)) {
-          result = false
-          return false
-      }
-  })
-  return result
-}
 
 /**
  * @description 交换元素
@@ -81,68 +68,6 @@ export const itemRemove = (oldIndex, data) => {
 }
 
 /**
- * 获得拖拽元素
- * @param {*} oldIndex 原始index
- * @param {*} data 原始data
- */
-export const getDragItem = (oldIndex, data) => {
-  const oldIndexArr = indexToArray(oldIndex);
-  let result = {};
-  oldIndexArr.forEach(item => {
-    result = data[item];
-    data = result.children;
-  })
-  return _.cloneDeep(result);
-}
-
-/**
- * @description 更新数组，用于同级拖拽排序
- * @param {*} newIndex 新index
- * @param {*} oldIndex 旧index
- * @param {*} data 原data
- * @param {*} parentPath 父组件路径
- */
-export const UpdateItem = (newIndex, oldIndex, data, parentPath) => {
-  const parentArr = indexToArray(parentPath);
-  let first = parentArr.shift();
-  let parent = data;
-  if(parentArr.length > 0) {
-    parent = data[first];
-    parentArr.forEach((item, index) => {
-      parent = parent.children[item];
-    })
-    swap(newIndex, oldIndex, parent.children);
-  } else {
-    // 第一层
-    if(!isNaN(first)) {
-      // 有一层父级元素，first不为NaN
-      parent = data[first];
-      swap(newIndex, oldIndex, parent.children);
-    } else {
-      // 最外层 parentArr为null，first为NaN
-      parent = data;
-      swap(newIndex, oldIndex, parent);
-    }
-  }
-  return data;
-}
-
-/**
- * 通过从列表中拿的元素
- * @param {*} name 元素id名
- */
-export const findItemObject = (componetList, name) => {
-  const componentItem = componetList.filter(item => {
-    if (item.type === name) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-  return componentItem[0];
-}
-
-/**
  * @description 更新item信息
  * @param {*} newIndex 原index
  * @param {*} data data
@@ -164,42 +89,117 @@ export const itemUpdateInfo = (newIndex, data, dragItem) => {
       }
     })
   } else {
-    parent.splice(first, 1, dragItem);
+    const {children, ...config} = parent[first];
+    const configInfo = Object.assign({},config, dragItem);
+    parent.splice(first, 1, {...configInfo, children});
   }
   return data;
 }
 
+
 /**
- * @description 复制元素
- * @param {*} oldIndex 原来的的Index路径
- * @param {*} data 原始data
- * @param {*} dragItem 需要添加的元素
+ * @description 渲染jsx
+ * @param {*} data 视图数据
  */
-export const itemCopy = (oldIndex, data, dragItem) => {
-  const oldIndexArr = indexToArray(oldIndex);
-  const len = oldIndexArr.length;
-  let newIndexArr = oldIndexArr;
-  // 得到新的Index
-  newIndexArr[len-1] = newIndexArr[len -1] + 1;
-  const newIndex = newIndexArr.join('-');
-  const newdata = itemAdd(newIndex, data, dragItem);
-  return newdata;
+export const renderJSX = data => {
+  return `
+    const Index = (props) => {
+      return ( 
+        <> 
+          ${renderDom(data, 0)}
+        </>
+      );
+    }
+    
+    export default Index;
+  `;
+};
+
+/**
+ * @description 渲染jsx dom
+ * @param {*} data 视图数据
+ */
+const renderDom = (data, index) => {
+  let result = ``;
+  data.map((item,i) => {
+    const indexs = index === '' ? String(i) : `${index}-${i}`;
+    const block = ' '.repeat(indexs.length - 1);
+    // className {styles['box0-0']}
+    // className2 className="styles.box${indexs}"
+    const {className = ''} = item;
+    const classNameText = className ? className : `box${indexs}`;
+    if (item.children) {
+      result += `
+        ${block}<div className={styles['${classNameText}']}>
+          ${block}${renderDom(item.children, indexs)}
+        ${block}</div>
+      `;
+    } else {
+      result += `
+        ${block}<div className={styles['${classNameText}']}>
+          ${block}children
+        ${block}</div>
+      `
+    }
+  });
+  return result;
+};
+
+/**
+ * @description 渲染css
+ * @param {*} data 
+ */
+export const renderCss = (data) => {
+  return `
+    ${renderCssTree(data, 0)}
+  `
 }
 
 /**
- * @description 是组件模版还是组件
- * @param {*} name 
+ * @description 渲染css树
+ * @param {*} data 
+ * @param {*} index 
  */
-export const isTemporCom = name => {
-  return name.indexOf('com-') > -1;
+const renderCssTree = (data, index) => {
+  let result = ``;
+  data.map((item,i) => {
+    const indexs = index === '' ? String(i) : `${index}-${i}`;
+    const block = ' '.repeat(indexs.length - 1);
+    const {className = ''} = item;
+    const classNameText = className ? className : `box${indexs}`;
+    if (item.children) {
+      result += `
+        ${block}.${classNameText}{
+          ${renderStyles(item, block)}
+          ${block}${renderCssTree(item.children, indexs)}
+        ${block}}
+      `;
+    } else {
+      result += `
+        ${block}.${classNameText}{
+          ${renderStyles(item, block)}
+        ${block}}
+      `
+    }
+  });
+  return result;
 }
 
 /**
- * @description 找到组件模版的code
- * @param {*} list 
- * @param {*} name 
+ * @description 渲染具体的css
+ * @param {*} item 样式
+ * @param {*} block 空格数
  */
-export const findTempCode = (list, name) => {
-  const currentArr = _.find(list, { 'com_name': name});
-  return JSON.parse(currentArr.com_code);
+const renderStyles = (item, block) => {
+  let result = ``;
+  if(item.flexDirection) {
+    result += `${block}display: flex;
+          `;
+    result += `${block}flex-direction: ${item.flexDirection};
+          `;
+  }
+  if(item.flex) {
+    result += `${block}flex: ${item.flex};\n`;
+  }
+  return result;
 }

@@ -2,7 +2,10 @@ import Box from '@/components/box/box';
 import CodeView from '@/components/CodeView/code';
 import { useDva } from '../hooks/useDva';
 import { useEffect } from 'react';
+import EditTree from '@/components/EditableTree/EditableTree';
+import { renderCss, renderJSX} from '../utils/utils';
 
+// 测试data
 const testData = [
   {
     flex: 1,
@@ -26,100 +29,27 @@ const testData = [
     ],
   },
 ];
-
+// 初始init
 const initData = [
   {
     flex: 1,
     flexDirection: 'column',
-    children: [],
+    children: [
+      {
+        flex: 1,
+      },
+      {
+        flex: 1,
+      }
+    ],
   },
 ];
 
-const renderJSX = data => {
-  return `
-    const Index = (props) => {
-      return ( 
-        <> 
-          ${renderDom(data, 0)}
-        </>
-      );
-    }
-    
-    export default Index;
-  `;
-};
-
 /**
- * @description 渲染jsx dom
- * @param {*} data 视图数据
+ * @description 渲染data
+ * @param {*} data 
+ * @param {*} index 
  */
-const renderDom = (data, index) => {
-  let result = ``;
-  data.map((item,i) => {
-    const indexs = index === '' ? String(i) : `${index}-${i}`;
-    const block = ' '.repeat(indexs.length - 1);
-    // className {styles['box0-0']}
-    // className2 className="styles.box${indexs}"
-    if (item.children) {
-      result += `
-        ${block}<div className={styles['box${indexs}']}>
-          ${block}${renderDom(item.children, indexs)}
-        ${block}</div>
-      `;
-    } else {
-      result += `
-        ${block}<div className={styles['box${indexs}']}>
-          ${block}children
-        ${block}</div>
-      `
-    }
-  });
-  return result;
-};
-
-const renderCss = (data) => {
-  return `
-    ${renderCssTree(data, 0)}
-  `
-}
-
-const renderCssTree = (data, index) => {
-  let result = ``;
-  data.map((item,i) => {
-    const indexs = index === '' ? String(i) : `${index}-${i}`;
-    const block = ' '.repeat(indexs.length - 1);
-    if (item.children) {
-      result += `
-        ${block}.box${indexs}{
-          ${renderStyles(item, block)}
-          ${block}${renderCssTree(item.children, indexs)}
-        ${block}}
-      `;
-    } else {
-      result += `
-        ${block}.box${indexs}{
-          ${renderStyles(item, block)}
-        ${block}}
-      `
-    }
-  });
-  return result;
-}
-
-const renderStyles = (item, block) => {
-  let result = ``;
-  if(item.flexDirection) {
-    result += `${block}display: flex;
-          `;
-    result += `${block}flex-direction: ${item.flexDirection};
-          `;
-  }
-  if(item.flex) {
-    result += `${block}flex: ${item.flex};\n`;
-  }
-  return result;
-}
-
 const renderData = (data, index) => {
   return data.map((item, i) => {
     const { flex = '', flexDirection = '', children = [] } = item;
@@ -190,15 +120,17 @@ const index = () => {
 
   return (
     <>
-      <div style={{ border: '1px solid red', height: '300px' }}>
-        {currentView.length > 0 ? renderData(currentView, '') : empty()}
+      <div style={{display: 'flex'}}>
+        <div style={{ border: '1px solid red', height: '300px', width: '600px' }}>
+          {currentView.length > 0 ? renderData(currentView, '') : empty()}
+        </div>
+        <div>
+          classNameTree
+          <EditTree />
+        </div>
       </div>
-      <div>
-        code
+      <div style={{display: 'flex'}}>
         <CodeView code={renderJSX(currentView)} />
-      </div>
-      <div>
-        css
         <CodeView code={renderCss(currentView)} />
       </div>
     </>
