@@ -3,6 +3,7 @@ const SettingsModel = {
   state: {
     currentView: [],
     selectIndex: '',
+    selectHoverIndex: '',
   },
   effects: {
     *changeView({ payload }, { call, put }) {
@@ -24,6 +25,9 @@ const SettingsModel = {
     },
     saveIndex(state, { payload }) {
       return { ...state, selectIndex: payload };
+    },
+    saveHoverIndex(state, { payload }) {
+      return { ...state, selectHoverIndex: payload };
     },
   },
 };

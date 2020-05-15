@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from './box.less';
 import { useDva } from '../../hooks/useDva';
 import { itemUpdateInfo, itemRemove } from '../../utils/utils';
 import { Input } from 'antd';
-
 
 const box = props => {
   const { index, info = { flex } } = props;
@@ -13,11 +12,12 @@ const box = props => {
   const {
     dispatch,
     data: {
-      settings: { selectIndex, currentView },
+      settings: { selectIndex, currentView, selectHoverIndex },
     },
   } = useDva({}, ['settings']);
-
   const isSelect = selectIndex === index;
+  //! 暂时增加前缀
+  const isHover = selectHoverIndex === '0-' + index;
 
   const selectConatiner = e => {
     const index = e.target.dataset.id;
@@ -68,7 +68,7 @@ const box = props => {
         payload: data,
       });
     }
-    if(type === 'delete') {
+    if (type === 'delete') {
       const data = itemRemove(index, currentView);
       dispatch({
         type: 'settings/changeView',
@@ -77,10 +77,9 @@ const box = props => {
     }
   };
 
-
   const onChange = value => {
-    if(value) {
-      const data = itemUpdateInfo(index, currentView, {flex: value});
+    if (value) {
+      const data = itemUpdateInfo(index, currentView, { flex: value });
       dispatch({
         type: 'settings/changeView',
         payload: data,
@@ -93,9 +92,12 @@ const box = props => {
       className={styles.container}
       data-id={index}
       onClick={e => selectConatiner(e)}
-      style={{ borderColor: isSelect ? 'blue' : '' }}
+      style={{
+        borderColor: isSelect ? 'blue' : '',
+        background: isHover ? '#a1d8e9' : '',
+      }}
     >
-      容器
+      容器{index}
       <div
         className={styles.actionTabs}
         style={{ display: isSelect ? '' : 'none' }}

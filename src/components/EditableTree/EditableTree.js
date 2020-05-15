@@ -12,7 +12,6 @@ const EditTree = props => {
     },
   } = useDva({}, ['settings']);
   const [value, setValue] = useState();
-
   const onChange = (value, key) => {
     if (value) {
       const index = key.slice(2);
@@ -57,13 +56,29 @@ const EditTree = props => {
 
   /**
    * @description 渲染每一个title节点
-   * @param {*} key 
-   * @param {*} title 
+   * @param {*} key
+   * @param {*} title
    */
   const titleRender = (key, title) => {
+    const mouseEnter = () => {
+      dispatch({
+        type: 'settings/saveHoverIndex',
+        payload: key,
+      });
+    };
+
+    const mouseLeave = () => {
+      dispatch({
+        type: 'settings/saveHoverIndex',
+        payload: '',
+      });
+    };
+
     return (
       <>
         <Input
+          onMouseEnter={mouseEnter}
+          onMouseLeave={mouseLeave}
           defaultValue={title}
           value={value}
           onChange={e => onChange(e.target.value, key)}
