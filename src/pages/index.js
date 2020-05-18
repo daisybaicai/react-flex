@@ -1,5 +1,5 @@
 import Box from '@/components/box/box';
-import CodeView from '@/components/CodeView/code';
+import CodeView from '@/components/codeView/code';
 import { useDva } from '../hooks/useDva';
 import { useEffect } from 'react';
 import EditTree from '@/components/EditableTree/EditableTree';
