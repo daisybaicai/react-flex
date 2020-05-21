@@ -10,6 +10,8 @@ const testData = [
   {
     flex: 1,
     flexDirection: 'column',
+    height: '100vh',
+    padding: '0.4rem',
     children: [
       {
         flex: 1,
@@ -34,6 +36,8 @@ const initData = [
   {
     flex: 1,
     flexDirection: 'column',
+    height: '100vh',
+    padding: '0.4rem',
     children: [
       {
         flex: 1,
