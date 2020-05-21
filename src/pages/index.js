@@ -12,7 +12,6 @@ const testData = [
     flexDirection: 'column',
     height: '100vh',
     padding: '0.4rem',
-    background: '@/assets/blueChain/card/bg.png',
     children: [
       {
         flex: 1,
