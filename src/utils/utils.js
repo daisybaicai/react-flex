@@ -160,24 +160,24 @@ export const renderCss = (data) => {
  * @param {*} data 
  * @param {*} index 
  */
-const renderCssTree = (data, index) => {
+const renderCssTree = (data, index, parentLen = 0, parentDirection = '') => {
   let result = ``;
   data.map((item,i) => {
     const indexs = index === '' ? String(i) : `${index}-${i}`;
     const block = ' '.repeat(indexs.length - 1);
-    const {className = ''} = item;
+    const {className = '', flexDirection = ''} = item;
     const classNameText = className ? className : `box${indexs}`;
     if (item.children) {
       result += `
         ${block}.${classNameText}{
-          ${renderStyles(item, block)}
-          ${block}${renderCssTree(item.children, indexs)}
+          ${renderStyles(item, block, item.children.length, i, parentDirection)}
+          ${block}${renderCssTree(item.children, indexs, item.children.length, flexDirection)}
         ${block}}
       `;
     } else {
       result += `
         ${block}.${classNameText}{
-          ${renderStyles(item, block)}
+          ${renderStyles(item, block, parentLen, i, parentDirection)}
         ${block}}
       `
     }
@@ -190,7 +190,7 @@ const renderCssTree = (data, index) => {
  * @param {*} item 样式
  * @param {*} block 空格数
  */
-const renderStyles = (item, block) => {
+const renderStyles = (item, block, childrenLen, index, parentDirection) => {
   let result = ``;
   if(item.flexDirection) {
     result += `${block}display: flex;
@@ -199,7 +199,32 @@ const renderStyles = (item, block) => {
           `;
   }
   if(item.flex) {
-    result += `${block}flex: ${item.flex};\n`;
+    result += `${block}flex: ${item.flex};
+          `;
+  }
+
+  if(item.height) {
+    result += `${block}height: ${item.height};
+          `;
+  }
+
+  if(item.background) {
+    result += `${block}background-image:url('~${item.background}');
+          `;
+  }
+
+  if(item.padding) {
+    result += `${block}padding: ${item.padding};
+          `;
+  }
+
+  if(childrenLen > 1 && index < childrenLen - 1) {
+    if(parentDirection === 'row') {
+      result += `${block}padding-right: 0.3rem;`
+    }
+    if(parentDirection === 'column') {
+      result += `${block}padding-bottom: 0.3rem;`
+    }
   }
   return result;
 }
