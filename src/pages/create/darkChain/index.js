@@ -1,7 +1,8 @@
-import styles from './index3.less';
-import Card from '@/components/theme/darkChain/Card'
+import Card from '@/components/Card';
 
-const Index = props => {
+import styles from './index.less';
+
+const Index = (props) => {
   return (
     <>
       <div className={styles['box0-0']}>
@@ -11,12 +12,12 @@ const Index = props => {
           </div>
 
           <div className={styles['box0-0-0-1']}>
-            children
+            <Card />
           </div>
         </div>
 
         <div className={styles['box0-0-1']}>
-          chidlren
+          <Card />
         </div>
       </div>
     </>

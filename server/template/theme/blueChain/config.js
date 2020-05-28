@@ -1,7 +1,7 @@
-import layout from './layout.json'
-export default {
+module.exports = {
+    name: "blueChain",
     container: 'Card',
-    layout: layout,
+    layout: true,
     padding: "0.4rem",
     background: "@/assets/blueChain/card/bg.png",
 }
