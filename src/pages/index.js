@@ -1,12 +1,13 @@
 import Box from '@/components/box/box';
 import CodeView from '@/components/codeView/code';
 import { useDva } from '../hooks/useDva';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import EditTree from '@/components/EditableTree/EditableTree';
 import { renderCss, renderJSX } from '../utils/utils';
 import axios from 'axios';
 import { history } from 'umi';
-
+import { Modal, Col } from 'antd';
+import ThemeCard from '@/components/ThemeCard';
 
 // 测试data
 const testData = [
@@ -52,6 +53,19 @@ const initData = [
   },
 ];
 
+const themeTemplates = [
+  {
+    title: '蓝色主题',
+    content: '这是蓝色主题',
+    theme: 'blueChain',
+  },
+  {
+    title: '黑色主题',
+    content: '这是黑色主题',
+    theme: 'darkChain'
+  }
+]
+
 /**
  * @description 渲染data
  * @param {*} data
@@ -94,6 +108,11 @@ const index = () => {
     },
   } = useDva({}, ['settings']);
 
+  const [ModalText, setModalText] = useState('content of Modal');
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [selectValue, setSelectValue] = useState(-1);
+
   useEffect(() => {
     dispatch({
       type: 'settings/changeView',
@@ -125,12 +144,13 @@ const index = () => {
     );
   };
 
-  const handleTheme = () => {
-    axios.post('/api/handleCode', {
-      jsCode: renderJSX(currentView),
-      cssCode: renderCss(currentView),
-      theme: 'darkChain',
-    })
+  const handleTheme = (theme) => {
+    axios
+      .post('/api/handleCode', {
+        jsCode: renderJSX(currentView),
+        cssCode: renderCss(currentView),
+        theme: theme,
+      })
       .then(({ data }) => {
         if (data.code === 200) {
           history.push(data.msg);
@@ -139,6 +159,27 @@ const index = () => {
       .catch(e => {
         console.log('get exception', e);
       });
+  };
+
+  const showModal = () => {
+    setVisible(true);
+  };
+
+  const handleOk = () => {
+    if(selectValue) {
+      setConfirmLoading(true);
+      handleTheme(selectValue);
+      setConfirmLoading(false);
+      setConfirmLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const handleClick = value => {
+    setSelectValue(value)
   };
 
   return (
@@ -153,12 +194,31 @@ const index = () => {
           classNameTree
           <EditTree />
         </div>
-        <div onClick={() => handleTheme()}>选择主题</div>
+        <div onClick={() => showModal()}>选择主题</div>
       </div>
       <div style={{ display: 'flex' }}>
         <CodeView code={renderJSX(currentView)} />
         <CodeView code={renderCss(currentView)} />
       </div>
+      <Modal
+        title="主题选择"
+        visible={visible}
+        onOk={() => handleOk()}
+        confirmLoading={confirmLoading}
+        onCancel={() => handleCancel()}
+      >
+        {themeTemplates.map((item, index) => (
+          <Col span={8} key={index}>
+            <ThemeCard
+              selectValue={selectValue}
+              value={item.theme}
+              title={item.title}
+              desc={item.content}
+              onClick={() => handleClick(item.theme)}
+            />
+          </Col>
+        ))}
+      </Modal>{' '}
     </>
   );
 };

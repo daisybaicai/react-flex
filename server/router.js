@@ -14,7 +14,11 @@ module.exports = (app) => {
   router.post('/user/register', HomeController.register)
 
   router.post('/handleCode', HomeController.handleCode)
-  
+
+  router.post('/zip', HomeController.zip)
+
+  router.post('/test', HomeController.testword);
+
   app.use(router.routes())
     .use(router.allowedMethods())
 }

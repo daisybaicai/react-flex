@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const prettier = require('prettier');
+const AdmZip = require('adm-zip');
 
 const FromBasePath =
   path.resolve().indexOf('server') === -1
@@ -130,4 +131,16 @@ module.exports = {
       resolve(2);
     });
   },
+  zip: async (config) => {
+    //blueChain, Card
+    return new Promise((resolve, reject) => {
+      const zip = new AdmZip();
+      var assetsDirPath = path.join(ToBasePath, '/src');
+      zip.addLocalFolder(assetsDirPath);
+      zip.writeZip('theme.zip');
+      resolve(
+        path.join(FromBasePath, 'theme.zip')
+      );
+    })
+  }
 };

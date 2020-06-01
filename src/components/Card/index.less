@@ -1,23 +1,94 @@
 .cardWrapper {
     flex: 1;
     height: 100%;
-    background:rgba(9,16,45,1);
-    border: .02rem solid #1C3963;
+    background:rgba(13,59,135,0.15);
+    border: .02rem solid rgba(40,118,255,0.15);
     position: relative;
     padding: .2rem .24rem;
-    box-shadow:0px 0px 0.02rem 0px rgba(84,150,255,0.13);
-    // border:1px solid rgba(28,57,99,1);
     .angle {
       position: absolute;
-      width: 1.15rem;
-      height: 0.4rem;
+      width: 0.29rem;
+      height: 0.25rem;
       &:nth-child(1) {
-        background: url('~@/assets/darkChain/card/corner.png') no-repeat;
+        background: url('~@/assets/blueChain/card/card-angle-icon.png') no-repeat;
         background-size: 100% 100%;
         left: -0.02rem;
-        top: -0.40em;
+        top: -0.02rem;
+      }
+      &:nth-child(2) {
+        background: url('~@/assets/blueChain/card/card-angle-icon2.png') no-repeat;
+        background-size: 100% 100%;
+        right: -0.02rem;
+        top: -0.02rem;
+      }
+      &:nth-child(3) {
+        background: url('~@/assets/blueChain/card/card-angle-icon3.png') no-repeat;
+        background-size: 100% 100%;
+        left: -0.02rem;
+        bottom: -0.02rem;
+      }
+      &:nth-child(4) {
+        background: url('~@/assets/blueChain/card/card-angle-icon4.png') no-repeat;
+        background-size: 100% 100%;
+        right: -0.02rem;
+        bottom: -0.02rem;
       }
     }
-
+  
+    .cardHeader {
+      height: .24rem;
+      img {
+        width: .1rem;
+        height: .08rem;
+        margin-right: .06rem;
+      }
+      .cardHeaderFont {
+        color:rgba(0,194,254,1);
+        height: .24rem;
+        position: relative;
+        div {
+          font-size: .18rem;
+        }
+        &::before {
+          display: inline-block;
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 25%;
+          right: 0;
+          bottom: 25%;
+          background:rgba(0,194,254,1);
+          filter:blur(.16rem);
+        }
+      }
+    }
+  
+    .progress {
+      margin-top: .09rem;
+      border-left: .16rem solid rgba(0, 194, 254, 1);
+      border-right: .16rem solid rgba(0, 194, 254, 1);
+      height: .03rem;
+      background:rgba(0,194,254,.15);
+      position: relative;
+      overflow: hidden;
+      &::after {
+        position: absolute;
+        display: inline-block;
+        content: "";
+        width: .66rem;
+        height: .03rem;
+        background: url('~@/assets/blueChain/card/progress.png') no-repeat;
+        left: 0;
+        top: 0;
+        animation: progress 2.5s linear infinite;
+      }
+    }
   }
   
+  @keyframes progress {
+    from {
+      left: -0.66rem;
+    } to {
+      left: 100%;
+    }
+  }

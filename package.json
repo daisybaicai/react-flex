@@ -19,6 +19,11 @@
       "prettier --parser=typescript --write"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged"
+    }
+  },
   "dependencies": {
     "@umijs/hooks": "^1.9.2",
     "@umijs/preset-react": "1.x",

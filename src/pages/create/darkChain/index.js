@@ -12,12 +12,24 @@ const Index = (props) => {
           </div>
 
           <div className={styles['box0-0-0-1']}>
-            <Card />
+            <div className={styles['box0-0-0-1-0']}>
+              <Card />
+            </div>
+
+            <div className={styles['box0-0-0-1-1']}>
+              <Card />
+            </div>
           </div>
         </div>
 
         <div className={styles['box0-0-1']}>
-          <Card />
+          <div className={styles['box0-0-1-0']}>
+            <Card />
+          </div>
+
+          <div className={styles['box0-0-1-1']}>
+            <Card />
+          </div>
         </div>
       </div>
     </>

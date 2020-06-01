@@ -8,58 +8,16 @@ const Index = (props) => {
       <div className={styles['box0-0']}>
         <div className={styles['box0-0-0']}>
           <div className={styles['box0-0-0-0']}>
-            <div className={styles['box0-0-0-0-0']}>
-              <Card />
-            </div>
-
-            <div className={styles['box0-0-0-0-1']}>
-              <Card />
-            </div>
+            <Card />
           </div>
 
           <div className={styles['box0-0-0-1']}>
-            <div className={styles['box0-0-0-1-0']}>
-              <div className={styles['box0-0-0-1-0-0']}>
-                <Card />
-              </div>
-
-              <div className={styles['box0-0-0-1-0-1']}>
-                <Card />
-              </div>
-            </div>
-
-            <div className={styles['box0-0-0-1-1']}>
-              <div className={styles['box0-0-0-1-1-0']}>
-                <Card />
-              </div>
-
-              <div className={styles['box0-0-0-1-1-1']}>
-                <Card />
-              </div>
-            </div>
+            <Card />
           </div>
         </div>
 
         <div className={styles['box0-0-1']}>
-          <div className={styles['box0-0-1-0']}>
-            <div className={styles['box0-0-1-0-0']}>
-              <Card />
-            </div>
-
-            <div className={styles['box0-0-1-0-1']}>
-              <Card />
-            </div>
-          </div>
-
-          <div className={styles['box0-0-1-1']}>
-            <div className={styles['box0-0-1-1-0']}>
-              <Card />
-            </div>
-
-            <div className={styles['box0-0-1-1-1']}>
-              <Card />
-            </div>
-          </div>
+          <Card />
         </div>
       </div>
     </>
