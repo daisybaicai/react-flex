@@ -44,13 +44,13 @@ module.exports = {
     // 处理页面文件
     const res2 = await HomeService.handlePages(config, jsCode, cssCode);
 
-    console.log('r', res, res2);
     ctx.response.body = {
       code: 200,
       msg: `/create/${config.name}`,
     };
   },
 
+  // TODO: 压缩问题
   zip: async (ctx, next) => {
     let { theme } = ctx.request.body;
     const config = await HomeService.getConfig(theme);
@@ -68,53 +68,9 @@ module.exports = {
     } else {
       res.end(404);
     }
-    // var stack = [
-    //   {
-    //     in: '/home/',
-    //     out: '/home'
-    //   },
-    //   {
-    //     in: '/../',
-    //     out: '/'
-    //   },
-    //   {
-    //     in: '/home//foo/',
-    //     out: '/home/foo'
-    //   },
-    //   {
-    //     in: "/a/./b/../../c/",
-    //     out: "/c"
-    //   },
-    //   {
-    //     in: "/a/../../b/../c//.//",
-    //     out: "/c"
-    //   },
-    //   {
-    //     in: "/a//b////c/d//././/..",
-    //     out: "/a/b/c"
-    //   }
-    // ]
     ctx.response.body = {
-      s: bolan,
-      res: reverBolan(bolan)
+      code: 200,
+      msg: res
     }
-    // ctx.response.body = {
-    //   code: 200,
-    //   msg: res
-    // }
-    // return res;
   },
-
-  testword: async(ctx, next) => {
-    var path2 = path.join(path.resolve(), '/test.docx');
-    // const zip = new admZip(path2);
-    // //将该docx解压到指定文件夹result下
-    // zip.extractAllTo("./result", /*overwrite*/true);
-    // return "xx";
-    const zip = new admZip(path2); //filePath为文件路径
-    let contentXml = zip.readAsText("word/document.xml");//将document.xml读取为text内容；
-    return {
-      "code": contentXml
-    }
-  }
 };
