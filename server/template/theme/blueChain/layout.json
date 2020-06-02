@@ -1,0 +1,71 @@
+[
+    {
+        "flex": 1,
+        "flexDirection": "column",
+        "height": "100vh",
+        "padding": "0.4rem",
+        "background": "@/assets/blueChain/card/bg.png",
+        "children": [
+            {
+                "flex": "3",
+                "flexDirection": "row",
+                "children": [
+                    {
+                        "flex": 1,
+                        "flexDirection": "row",
+                        "children": [
+                            {
+                                "flex": 1,
+                                "flexDirection": "column",
+                                "children": [
+                                    {
+                                        "flex": 1
+                                    },
+                                    {
+                                        "flex": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "flex": "2"
+                            }
+                        ]
+                    },
+                    {
+                        "flex": 1,
+                        "flexDirection": "column",
+                        "children": [
+                            {
+                                "flex": 1
+                            },
+                            {
+                                "flex": 1,
+                                "flexDirection": "row",
+                                "children": [
+                                    {
+                                        "flex": 1
+                                    },
+                                    {
+                                        "flex": 1
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "flex": "2",
+                "flexDirection": "row",
+                "children": [
+                    {
+                        "flex": 1
+                    },
+                    {
+                        "flex": 1
+                    }
+                ]
+            }
+        ]
+    }
+]
